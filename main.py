@@ -6,10 +6,7 @@ pdf_path = 'Vegetables.pdf'
 csv_file_path = 'vegetables_data_with_alternative_phone.csv'
 
 def parse_listing(line):
-    """
-    Parse a listing line to separate the name, location, and primary phone number.
-    Recognize lines that potentially only contain a phone number.
-    """
+
     phone_pattern = r'(\d{3}-\d{3}-\d{4})|Call'
     phones = re.findall(phone_pattern, line)
     if phones:
@@ -19,7 +16,7 @@ def parse_listing(line):
         else:
             phone = phones[0]
             before_phone = line[:line.find(phone)].strip()
-            parts = before_phone.rsplit(' ', 2)  # Attempt to separate name and location
+            parts = before_phone.rsplit(' ', 2)  # separate name and location
             if len(parts) >= 2:
                 location = parts[-1]
                 name = ' '.join(parts[:-1])
@@ -70,6 +67,6 @@ with open(csv_file_path, 'w', newline='') as csvfile:
     writer = csv.writer(csvfile)
     writer.writerow(['Category', 'Name', 'Location', 'Phone Number', 'Alternative Phone'])
     for data_row in all_data:
-        writer.writerow(data_row + [''] * (5 - len(data_row)))  # Ensure row length
+        writer.writerow(data_row + [''] * (5 - len(data_row)))
 
 print("Data extraction and writing to CSV completed.")
